@@ -198,6 +198,3 @@ if __name__ == "__main__":
         file_output = open("output_" + file + ".txt", "w")
         solution = resolution(file_input)
 
-        
-
-
