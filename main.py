@@ -11,43 +11,48 @@ from random import randint
 import numpy as np
 
 
-class Object:
-    def __init__(self, arg1, arg2, arg3):
-        self.arg1 = arg1
-        self.arg2 = arg2
-        self.arg3 = arg3
+class Projects:
+    def __init__(self, name, duration, score_aw,best_before, roles ):
+        self.name = name
+        self.duration = duration
+        self.score_aw = score_aw
+        self.best_before= best_before
+        self.roles=roles
     
     def __repr__(self) -> str:
         return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
 
     def __str__(self):
         return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
+
+
+
+class Skills:
+    def __init__(self, name, level ):
+        self.name = name
+        self.level = level
         
-
-
-def parseInput(file):from codecs import xmlcharrefreplace_errors
-from os import system
-import sys
-import itertools
-from collections import OrderedDict
-from operator import itemgetter
-# generate random integer values
-from random import seed
-from random import randint
-import numpy as np
-
-
-class Object:
-    def __init__(self, arg1, arg2, arg3):
-        self.arg1 = arg1
-        self.arg2 = arg2
-        self.arg3 = arg3
-
+    
     def __repr__(self) -> str:
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
 
     def __str__(self):
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
+
+
+class Roles:
+    def __init__(self, id, req ):
+        self.id = id
+        self.req =req 
+        
+    
+    def __repr__(self) -> str:
+        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
+
+    def __str__(self):
+        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
+
+
 
 
 def parseInput(file):
