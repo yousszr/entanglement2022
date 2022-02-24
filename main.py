@@ -17,9 +17,11 @@ class Project:
         self.score_aw = score_aw
         self.best_before = best_before
         self.roles = roles
+        self.planned = False
+        self.contributors = []
 
     # def __repr__(self) -> str:
-    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    #     return "Project -->  " + " : " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
     # def __str__(self):
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
@@ -176,7 +178,8 @@ def output(objects, file_input):
 
 if __name__ == "__main__":
 
-    input_file = ["a", "b", "c", "d", "e"]
+    input_file = ["a"]
+    # input_file = ["a", "b", "c", "d", "e"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
