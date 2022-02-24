@@ -18,56 +18,56 @@ class Project:
         self.best_before = best_before
         self.roles = roles
 
-    def __repr__(self) -> str:
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    # def __repr__(self) -> str:
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
-    def __str__(self):
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    # def __str__(self):
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
 
-class skill:
+class Skill:
     def __init__(self, name, level):
         self.name = name
         self.level = level
+    #
+    # def __repr__(self) -> str:
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
-    def __repr__(self) -> str:
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-
-    def __str__(self):
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-
+    # def __str__(self):
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    #
 
 class Roles:
     def __init__(self, id, req):
         self.id = id
         self.req = req
 
-    def __repr__(self) -> str:
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    # def __repr__(self) -> str:
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    #
+    # def __str__(self):
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    #
 
-    def __str__(self):
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-
-
-class contributor:
+class Contributor:
     def __init__(self, name, skills):
         self.name = name
         self.skills = skills
 
-    def __repr__(self) -> str:
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-
-    def __str__(self):
-        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-
-
-Contributors = []
-Projects = []
+    # def __repr__(self) -> str:
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    #
+    # def __str__(self):
+    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
 
 def parseInput(file):
+    CONTRIBUTORS = []
+    PROJECTS = []
+
     global C, P
     lines = []
+    count = 0
     with open(file) as f:
         line = f.readline()
         count += 1
@@ -84,8 +84,9 @@ def parseInput(file):
             for i in range(int(elem[1])):
                 line = f.readline()
                 elem = line.split()
-                skills.append(skill(elem[0], int(elem[1])))
-            Contributors.append(contributor(name, skills))
+                skills.append(Skill(elem[0], int(elem[1])))
+            CONTRIBUTORS.append(Contributor(name, skills))
+            countC += 1
 
         while (countP != P):
             line = f.readline()
@@ -98,8 +99,11 @@ def parseInput(file):
             for i in range(int(roles)):
                 line = f.readline()
                 elem = line.split()
-                skills.append(skill(elem[0], int(elem[1])))
-            Projects.append(Project(name, duration, score, bestday, skills))
+                skills.append(Skill(elem[0], int(elem[1])))
+            PROJECTS.append(Project(name, duration, score, bestday, skills))
+            countP += 1
+
+        return CONTRIBUTORS, PROJECTS
 
 
 def object_score(object):
@@ -126,7 +130,8 @@ def output(objects, file_input):
 
 
 def resolution(file_input):
-    parseInput(file_input)
+    Contributors, Projects = parseInput(file_input)
+    print(f"File {file} found {len(Contributors)} contributors and {len(Projects)} projects")
     objects = []
     not_finished = False
     while (not_finished):
@@ -146,7 +151,6 @@ def resolution(file_input):
     output(objects, file_input)
 
 
-
 def object_score(object):
     finalscore = 0
 
@@ -170,32 +174,12 @@ def output(objects, file_input):
     sourceFile.close()
 
 
-def resolution(file_input):
-    parseInput(file_input)
-    objects = []
-    not_finished = False
-    while (not_finished):
-
-        if (True):  # Pulisco la lista di ingredienti da quelli scelti
-            newscore = []
-            if (newscore > scores):
-                output(objects, file_input)
-                scores = newscore
-
-            Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-            print("SCORE --> " + str(scores))
-
-        else:
-
-            not_finished = False
-
-
 if __name__ == "__main__":
 
     input_file = ["a", "b", "c", "d", "e"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
-        file_input = open(file + ".txt", "r")
-        file_output = open("output_" + file + ".txt", "w")
-        solution = resolution(file_input)
+        # file_input = open(file + ".txt", "r")
+        # file_output = open("output_" + file + ".txt", "w")
+        resolution(file + ".txt")
