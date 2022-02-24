@@ -23,11 +23,11 @@ class Project:
         self.contributors = []
         self.end = None
 
-    def __repr__(self) -> str:
-        return f"Project {self.name} {self.best_before}"
-
-    def __str__(self):
-        return f"Project {self.name} {self.best_before}"
+    # def __repr__(self) -> str:
+    #     return f"Project {self.name} {self.best_before}"
+    #
+    # def __str__(self):
+    #     return f"Project {self.name} {self.best_before}"
 
 
 class Skill:
@@ -131,11 +131,19 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
     assigned_contributors = []
     temporary_contributors = []
     for role in project.roles:
+        found = False
         for c in contributors:
+            if found:
+                break
             for skill in c.skills:
+                if found:
+                    break
                 if role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors:
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
+                    found = True
+                    break
+
 
     if len(assigned_contributors) != len(project.roles):
         project.planned = False
@@ -177,10 +185,10 @@ def resolution(file_input):
                 prj.end = day + prj.duration
                 started_projects.append(prj)
 
-            print(p)
+            # print(p)
         day += 1
 
-        if day >= 300:
+        if day >= 100:
             not_finished = False
 
     output(started_projects, file_input + ".out.txt")
@@ -235,8 +243,8 @@ def output(final_projects, file_input):
 
 if __name__ == "__main__":
 
-    # input_file = ["a"]
-    input_file = ["a", "b", "c"]
+    # input_file = ["b"]
+    input_file = ["a", "b", "c", "d", "e", "f"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
