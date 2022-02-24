@@ -16,20 +16,16 @@ class Object:
         self.arg1 = arg1
         self.arg2 = arg2
         self.arg3 = arg3
+    
+    def __repr__(self) -> str:
+        return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
 
     def __str__(self):
         return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2) 
         
-C=0
-Clients=[]
-ingredients={}
-ingredientslikes={}
-ingredientsdlikes={}
 
 
 def parseInput(file):
-    global C
-    global Clients
     lines = []
     with open(file) as f:
         lines = f.readlines()
@@ -37,7 +33,7 @@ def parseInput(file):
     count = 0
     for line in lines:
         
-        if(count==1):
+        if(count==1):   
           count+=1
               
         
@@ -59,21 +55,20 @@ def ObjectsUpdate(object):
     new_list=[]
     return new_list
    
-def all_score(ingredients):
+def all_score(solution):
     
     score=0
 
     return score
 
-def output(objects):
-    sourceFile = open(sys.argv[2], 'w')
+def output(objects,file_input):
+    sourceFile = open(file_input+"_output.txt", 'w')
     sourceFile.write("{} ".format(str(len(objects)))+ " ".join(list(objects)))
     sourceFile.close()
-    
 
-if __name__ == "__main__":
 
-    parseInput(sys.argv[1])
+def resolution(file_input):
+    parseInput(file_input)
     objects=[]
     not_finished=False
     while(not_finished):
@@ -81,15 +76,31 @@ if __name__ == "__main__":
         if(True):        #Pulisco la lista di ingredienti da quelli scelti
            newscore=[]
            if(newscore>scores):
-             output(objects)
+             output(objects,file_input)
              scores=newscore
          
-           Objects=ObjectsUpdate(fingredients) # aggiorna la lista dei clietni,
+           Objects=ObjectsUpdate(objects) # aggiorna la lista dei clietni,
            print("SCORE --> "+ str(scores))
 
         else:
             
             not_finished=False
+    
+
+if __name__ == "__main__":
+
+    input_file = ["a", "b", "c", "d", "e"]
+
+    for file in input_file:
+        print("---- Start file " + file + " -----")
+        file_input = open(file + ".txt", "r")
+        file_output = open("output_" + file + ".txt", "w")
+        solution = resolution(file_input)
+
+        
+
+
+    
     
 
  
