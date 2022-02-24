@@ -38,9 +38,8 @@ class Skill:
     # def __repr__(self) -> str:
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
 
-    # def __str__(self):
-    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-    #
+    def __str__(self):
+        return "{} " + str(self.name)
 
 
 class Roles:
@@ -51,9 +50,8 @@ class Roles:
     # def __repr__(self) -> str:
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
     #
-    # def __str__(self):
-    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
-    #
+    def __str__(self):
+        return "{} " + str(self.id)
 
 
 class Contributor:
@@ -64,8 +62,8 @@ class Contributor:
     # def __repr__(self) -> str:
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
     #
-    # def __str__(self):
-    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    def __str__(self):
+        return "{} " + str(self.name)
 
 
 def parseInput(file):
@@ -134,18 +132,17 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
     temporary_contributors = []
     for role in project.roles:
         for c in contributors:
-            # Make map if needed
             for skill in c.skills:
                 if role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors:
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
 
-        if len(assigned_contributors) != len(project.roles):
-            project.planned = False
-            return project, contributors
+    if len(assigned_contributors) != len(project.roles):
+        project.planned = False
+        return project, contributors
 
-        project.contributors = assigned_contributors
-        contributors = list(set(contributors) - set(assigned_contributors))
+    project.contributors = assigned_contributors
+    contributors = list(set(contributors) - set(assigned_contributors))
 
     project.planned = True
     return project, contributors
