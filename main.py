@@ -7,6 +7,8 @@ from operator import itemgetter
 # generate random integer values
 from random import seed
 from random import randint
+from typing import List
+
 import numpy as np
 
 
@@ -19,12 +21,13 @@ class Project:
         self.roles = roles
         self.planned = False
         self.contributors = []
+        self.end = None
 
-    # def __repr__(self) -> str:
-    #     return "Project -->  " + " : " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    def __repr__(self) -> str:
+        return f"Project {self.name} {self.best_before}"
 
-    # def __str__(self):
-    #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
+    def __str__(self):
+        return f"Project {self.name} {self.best_before}"
 
 
 class Skill:
@@ -39,6 +42,7 @@ class Skill:
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
     #
 
+
 class Roles:
     def __init__(self, id, req):
         self.id = id
@@ -50,6 +54,7 @@ class Roles:
     # def __str__(self):
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
     #
+
 
 class Contributor:
     def __init__(self, name, skills):
@@ -119,38 +124,85 @@ def ObjectsUpdate(object):
     return new_list
 
 
-def all_score(solution):
-    score = 0
-
-    return score
+def best_before(prj: Project):
+    return prj.best_before
 
 
-def output(objects, file_input):
-    sourceFile = open(file_input + "_output.txt", 'w')
-    sourceFile.write("{} ".format(str(len(objects))) + " ".join(list(objects)))
-    sourceFile.close()
+def assign_contributor(project: Project, contributors: List[Contributor]) -> (Project, List[Contributor]):
+    assigned_contributors = []
+    for role in project.roles:
+        for c in contributors:
+            # Make map if needed
+            for skill in c.skills:
+                if role.name == skill.name and skill.level >= role.level:
+                    assigned_contributors.append(c)
+
+        if len(assigned_contributors) == 0:
+            project.planned = False
+            return project, []
+
+        project.contributors = assigned_contributors
+        contributors = list(set(contributors) - set(assigned_contributors))
+
+    project.planned = True
+    return project, contributors
 
 
 def resolution(file_input):
     Contributors, Projects = parseInput(file_input)
-    print(f"File {file} found {len(Contributors)} contributors and {len(Projects)} projects")
-    objects = []
-    not_finished = False
-    while (not_finished):
+    day = 0
+    not_finished = True
 
-        if (True):  # Pulisco la lista di ingredienti da quelli scelti
-            newscore = []
-            if (newscore > scores):
-                scores = newscore
+    Projects.sort(key=best_before)
+    available_projects = Projects[:]
+    started_projects = []
+    available_contributors = Contributors[:]
 
-            Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-            print("SCORE --> " + str(scores))
+    while not_finished:
+        print(f"---- Day {day} ----")
 
-        else:
+        # Release contributors
+        for started_prj in started_projects:
+            if started_prj.end == day:
+                # learn()
+                available_contributors.extend(started_prj.contributors)
 
+        # occupied_contributors = set(Contributors) - set(available_contributors)
+
+        # Start new projects
+        for i, p in enumerate(available_projects):
+            prj, available_contributors = assign_contributor(p, available_contributors)
+            if prj.planned:
+                available_projects.pop(i)
+                prj.end = day + prj.duration
+                started_projects.append(prj)
+
+            print(p)
+        day += 1
+
+        if day >= 300:
             not_finished = False
 
-    output(objects, file_input)
+    output(started_projects, file_input + ".out.txt")
+
+    # print(f"File {file} found {len(Contributors)} contributors and {len(Projects)} projects")
+    # objects = []
+    # not_finished = False
+    # while not_finished:
+
+        # if (True:  # Pulisco la lista di ingredienti da quelli scelti
+        #     newscore = []
+        #     if (newscore > scores):
+        #         scores = newscore
+        #
+        #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
+        #     print("SCORE --> " + str(scores))
+
+    #     else:
+    #
+    #         not_finished = False
+    #
+    # output(objects, file_input)
 
 
 def object_score(object):
@@ -170,9 +222,14 @@ def all_score(solution):
     return score
 
 
-def output(objects, file_input):
+def output(final_projects, file_input):
     sourceFile = open(file_input + "_output.txt", 'w')
-    sourceFile.write("{} ".format(str(len(objects))) + " ".join(list(objects)))
+    sourceFile.write("{}\n".format(str(len(final_projects))))
+    for prj in final_projects:
+        sourceFile.write(f"{prj.name}\n")
+        for ctrb in prj.contributors:
+            sourceFile.write(f"{ctrb.name} ")
+        sourceFile.write("\n")
     sourceFile.close()
 
 
