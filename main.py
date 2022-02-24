@@ -34,6 +34,7 @@ class Skill:
     def __init__(self, name, level):
         self.name = name
         self.level = level
+
     #
     # def __repr__(self) -> str:
     #     return "Clients -->  " + " Ing Like: " + str(self.arg1) + " Ing dislike: " + str(self.arg2)
@@ -127,6 +128,14 @@ def best_before(prj: Project):
     return prj.best_before
 
 
+def max_level(contributors, skill, level):
+    for c in contributors:
+        for s in c.skills:
+            if s.name == skill and s.level >= level:
+                return True
+    return False
+
+
 def assign_contributor(project: Project, contributors: List[Contributor]) -> (Project, List[Contributor]):
     assigned_contributors = []
     temporary_contributors = []
@@ -138,12 +147,13 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
             for skill in c.skills:
                 if found:
                     break
-                if role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors:
+                # Check if I can be assigned
+                if ((role.name == skill.name and skill.level == role.level - 1 and max_level(assigned_contributors, role.name, role.level))
+                        or role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors):
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
                     found = True
                     break
-
 
     if len(assigned_contributors) != len(project.roles):
         project.planned = False
@@ -158,6 +168,7 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
 
 def resolution(file_input):
     Contributors, Projects = parseInput(file_input)
+    print(f"File {file} found {len(Contributors)} contributors and {len(Projects)} projects")
     day = 0
     not_finished = True
 
@@ -172,7 +183,7 @@ def resolution(file_input):
         # Release contributors
         for started_prj in started_projects:
             if started_prj.end == day:
-                # learn()
+                # learn(project)
                 available_contributors.extend(started_prj.contributors)
 
         # occupied_contributors = set(Contributors) - set(available_contributors)
@@ -184,27 +195,23 @@ def resolution(file_input):
                 available_projects.pop(i)
                 prj.end = day + prj.duration
                 started_projects.append(prj)
-
-            # print(p)
         day += 1
-
-        if day >= 100:
+        if len(available_projects) == 0 or day >= 1000:
             not_finished = False
 
     output(started_projects, file_input + ".out.txt")
 
-    # print(f"File {file} found {len(Contributors)} contributors and {len(Projects)} projects")
     # objects = []
     # not_finished = False
     # while not_finished:
 
-        # if (True:  # Pulisco la lista di ingredienti da quelli scelti
-        #     newscore = []
-        #     if (newscore > scores):
-        #         scores = newscore
-        #
-        #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-        #     print("SCORE --> " + str(scores))
+    # if (True:  # Pulisco la lista di ingredienti da quelli scelti
+    #     newscore = []
+    #     if (newscore > scores):
+    #         scores = newscore
+    #
+    #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
+    #     print("SCORE --> " + str(scores))
 
     #     else:
     #
@@ -242,9 +249,9 @@ def output(final_projects, file_input):
 
 
 if __name__ == "__main__":
-
-    # input_file = ["b"]
-    input_file = ["a", "b", "c", "d", "e", "f"]
+    input_file = ["b"]
+    # input_file = ["a", "b", "c", "d", "e", "f"]
+    # input_file = ["f"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
