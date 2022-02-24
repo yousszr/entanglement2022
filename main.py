@@ -146,31 +146,6 @@ def resolution(file_input):
     output(objects, file_input)
 
 
-if __name__ == "__main__":
-
-    input_file = ["a", "b", "c", "d", "e"]
-
-    for file in input_file:
-        print("---- Start file " + file + " -----")
-        resolution(file)
-
-    lines = []
-    with open(file) as f:
-        lines = f.readlines()
-
-    count = 0
-    for line in lines:
-
-        if (count == 1):
-            count += 1
-
-
-        elif (count == 2):
-            count = 1
-
-        if (count == 0):
-            count = +1
-
 
 def object_score(object):
     finalscore = 0
