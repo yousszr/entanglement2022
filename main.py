@@ -96,6 +96,7 @@ def parseInput(file):
             countC += 1
 
         while (countP != P):
+            roles_list = []
             line = f.readline()
             elem = line.split()
             name = elem[0]
@@ -103,11 +104,11 @@ def parseInput(file):
             score = int(elem[2])
             bestday = int(elem[3])
             roles = elem[4]
-            for i in range(int(roles)):
+            for i in range(0, int(roles)):
                 line = f.readline()
                 elem = line.split()
-                skills.append(Skill(elem[0], int(elem[1])))
-            PROJECTS.append(Project(name, duration, score, bestday, skills))
+                roles_list.append(Skill(elem[0], int(elem[1])))
+            PROJECTS.append(Project(name, duration, score, bestday, roles_list))
             countP += 1
 
         return CONTRIBUTORS, PROJECTS
@@ -192,13 +193,13 @@ def resolution(file_input):
     # not_finished = False
     # while not_finished:
 
-    # if (True:  # Pulisco la lista di ingredienti da quelli scelti
-    #     newscore = []
-    #     if (newscore > scores):
-    #         scores = newscore
-    #
-    #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-    #     print("SCORE --> " + str(scores))
+        # if (True:  # Pulisco la lista di ingredienti da quelli scelti
+        #     newscore = []
+        #     if (newscore > scores):
+        #         scores = newscore
+        #
+        #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
+        #     print("SCORE --> " + str(scores))
 
     #     else:
     #
