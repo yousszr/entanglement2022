@@ -130,16 +130,18 @@ def best_before(prj: Project):
 
 def assign_contributor(project: Project, contributors: List[Contributor]) -> (Project, List[Contributor]):
     assigned_contributors = []
+    temporary_contributors = []
     for role in project.roles:
         for c in contributors:
             # Make map if needed
             for skill in c.skills:
-                if role.name == skill.name and skill.level >= role.level:
+                if role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors:
                     assigned_contributors.append(c)
+                    temporary_contributors.append(c.name)
 
-        if len(assigned_contributors) == 0:
+        if len(assigned_contributors) != len(project.roles):
             project.planned = False
-            return project, []
+            return project, contributors
 
         project.contributors = assigned_contributors
         contributors = list(set(contributors) - set(assigned_contributors))
@@ -190,13 +192,13 @@ def resolution(file_input):
     # not_finished = False
     # while not_finished:
 
-        # if (True:  # Pulisco la lista di ingredienti da quelli scelti
-        #     newscore = []
-        #     if (newscore > scores):
-        #         scores = newscore
-        #
-        #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-        #     print("SCORE --> " + str(scores))
+    # if (True:  # Pulisco la lista di ingredienti da quelli scelti
+    #     newscore = []
+    #     if (newscore > scores):
+    #         scores = newscore
+    #
+    #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
+    #     print("SCORE --> " + str(scores))
 
     #     else:
     #
@@ -235,8 +237,8 @@ def output(final_projects, file_input):
 
 if __name__ == "__main__":
 
-    input_file = ["a"]
-    # input_file = ["a", "b", "c", "d", "e"]
+    # input_file = ["a"]
+    input_file = ["a", "b", "c"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
