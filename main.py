@@ -113,17 +113,6 @@ def parseInput(file):
         return CONTRIBUTORS, PROJECTS
 
 
-def object_score(object):
-    finalscore = 0
-
-    return finalscore
-
-
-def ObjectsUpdate(object):
-    new_list = []
-    return new_list
-
-
 def best_before(prj: Project):
     return prj.best_before
 
@@ -143,7 +132,8 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
         for c in contributors:
             if c.skills.get(role.name) is not None and c.name not in temporary_contributors:
                 actual_skill_level = c.skills.get(role.name)
-                if ((role.level == actual_skill_level - 1 and max_level(assigned_contributors, role.name, role.level and c.name not in temporary_contributors))
+                if ((role.level == actual_skill_level - 1 and max_level(assigned_contributors, role.name,
+                                                                        role.level and c.name not in temporary_contributors))
                         or actual_skill_level >= role.level and c.name not in temporary_contributors):
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
@@ -189,29 +179,11 @@ def resolution(file_input):
                 available_projects.pop(i)
                 prj.end = day + prj.duration
                 started_projects.append(prj)
-        day += 2
-        if len(available_projects) == 0 or day >= 300:
+        day += 100
+        if len(available_projects) == 0 or day >= 100000:
             not_finished = False
 
     output(started_projects, file_input + ".out.txt")
-
-    # objects = []
-    # not_finished = False
-    # while not_finished:
-
-    # if (True:  # Pulisco la lista di ingredienti da quelli scelti
-    #     newscore = []
-    #     if (newscore > scores):
-    #         scores = newscore
-    #
-    #     Objects = ObjectsUpdate(objects)  # aggiorna la lista dei clietni,
-    #     print("SCORE --> " + str(scores))
-
-    #     else:
-    #
-    #         not_finished = False
-    #
-    # output(objects, file_input)
 
 
 def object_score(object):
@@ -243,12 +215,10 @@ def output(final_projects, file_input):
 
 
 if __name__ == "__main__":
-    # input_file = ["a","b", "c"]
-    input_file = ["a", "b", "c", "d", "e", "f"]
+    input_file = ["e"]
+    # input_file = ["a", "b", "c", "d", "e", "f"]
     # input_file = ["f"]
 
     for file in input_file:
         print("---- Start file " + file + " -----")
-        # file_input = open(file + ".txt", "r")
-        # file_output = open("output_" + file + ".txt", "w")
         resolution(file + ".txt")
