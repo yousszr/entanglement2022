@@ -148,7 +148,7 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
                 if found:
                     break
                 # Check if I can be assigned
-                if ((role.name == skill.name and skill.level == role.level - 1 and max_level(assigned_contributors, role.name, role.level))
+                if ((role.name == skill.name and skill.level == role.level - 1 and max_level(assigned_contributors, role.name, role.level and c.name not in temporary_contributors))
                         or role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors):
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
