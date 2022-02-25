@@ -86,11 +86,11 @@ def parseInput(file):
             line = f.readline()
             elem = line.split()
             name = elem[0]
-            skills = []
+            skills = dict()
             for i in range(int(elem[1])):
                 line = f.readline()
                 elem = line.split()
-                skills.append(Skill(elem[0], int(elem[1])))
+                skills[elem[0]] = int(elem[1])
             CONTRIBUTORS.append(Contributor(name, skills))
             countC += 1
 
@@ -130,9 +130,9 @@ def best_before(prj: Project):
 
 def max_level(contributors, skill, level):
     for c in contributors:
-        for s in c.skills:
-            if s.name == skill and s.level >= level:
-                return True
+        if skill in c.skills and c.skills[skill] >= level:
+            return True
+
     return False
 
 
@@ -140,19 +140,13 @@ def assign_contributor(project: Project, contributors: List[Contributor]) -> (Pr
     assigned_contributors = []
     temporary_contributors = []
     for role in project.roles:
-        found = False
         for c in contributors:
-            if found:
-                break
-            for skill in c.skills:
-                if found:
-                    break
-                # Check if I can be assigned
-                if ((role.name == skill.name and skill.level == role.level - 1 and max_level(assigned_contributors, role.name, role.level and c.name not in temporary_contributors))
-                        or role.name == skill.name and skill.level >= role.level and c.name not in temporary_contributors):
+            if c.skills.get(role.name) is not None and c.name not in temporary_contributors:
+                actual_skill_level = c.skills.get(role.name)
+                if ((role.level == actual_skill_level - 1 and max_level(assigned_contributors, role.name, role.level and c.name not in temporary_contributors))
+                        or actual_skill_level >= role.level and c.name not in temporary_contributors):
                     assigned_contributors.append(c)
                     temporary_contributors.append(c.name)
-                    found = True
                     break
 
     if len(assigned_contributors) != len(project.roles):
@@ -195,8 +189,8 @@ def resolution(file_input):
                 available_projects.pop(i)
                 prj.end = day + prj.duration
                 started_projects.append(prj)
-        day += 1
-        if len(available_projects) == 0 or day >= 1000:
+        day += 2
+        if len(available_projects) == 0 or day >= 300:
             not_finished = False
 
     output(started_projects, file_input + ".out.txt")
@@ -249,8 +243,8 @@ def output(final_projects, file_input):
 
 
 if __name__ == "__main__":
-    input_file = ["b"]
-    # input_file = ["a", "b", "c", "d", "e", "f"]
+    # input_file = ["a","b", "c"]
+    input_file = ["a", "b", "c", "d", "e", "f"]
     # input_file = ["f"]
 
     for file in input_file:
